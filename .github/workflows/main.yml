@@ -36,7 +36,7 @@ jobs:
         run: ./compile-docker.bash
         
       - name: Upload artifact
-          uses: actions/upload-artifact@master
+          uses: actions/upload-artifact@v3
           with:
             name: docker_download
           path: ./docker*.tar.gz         
