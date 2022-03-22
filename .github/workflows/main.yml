@@ -34,7 +34,7 @@ jobs:
           sudo -E apt-get -qq autoremove --purge
 
       - name: Run build
-        run: ./compile-docker.bash
+        run: ./compile-docker.bash buildx
         
       - name : Upload packages
         uses: actions/upload-artifact@master
