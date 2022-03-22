@@ -35,8 +35,9 @@ jobs:
       - name: Run build
         run: ./compile-docker.bash
         
-      - name: Upload artifact
-          uses: actions/upload-artifact@v3
-          with:
-            name: docker_download
-          path: ./docker*.tar.gz         
+    - name : Upload packages
+      uses: actions/upload-artifact@master
+      if: always()
+      with:
+          name: docker_download
+          path: ./docker*.tar.gz      
