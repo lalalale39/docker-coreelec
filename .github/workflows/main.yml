@@ -17,9 +17,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     runs-on: ubuntu-20.04
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - name: Initialization Environment
         run: |
@@ -31,10 +29,9 @@ jobs:
           sudo -E apt-get -qq autoremove --purge
       - name: Run build
         run: ./compile-docker.bash
-        
       - name : Upload packages
-       uses: actions/upload-artifact@master
-       if: always()
-       with:
+        uses: actions/upload-artifact@master
+        if: always()
+        with:
           name: docker_download
           path: ./docker*.tar.gz      
