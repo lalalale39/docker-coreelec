@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION=0.2
+VERSION=0.1
 echo ""
 echo "$0 version $VERSION"
 echo "Docker compiler (client and server) for CoreELEC systems"
@@ -32,31 +32,31 @@ function print_error_arg_buildx () {
   echo "    <arch> must be ${bold}arm64${normal}, ${bold}armv7${normal} or ${bold}armv6${normal}"
 }
 
-BUILDX_PREFIX="buildx-v0.8.1."
-CTOP_PREFIX="ctop-0.7.6-"
-#ARCH=""
-#arch_uname=$(uname -m)
-#if [ -z "${arch_uname##*aarch64*}" ]; then
+BUILDX_PREFIX="buildx-v0.5.1."
+CTOP_PREFIX="ctop-0.7.5-"
+ARCH=""
+arch_uname=$(uname -m)
+if [ -z "${arch_uname##*aarch64*}" ]; then
   ARCH="linux/arm64"
   ARCH_TAR="arm64"
   BUILDX_SUFFIX="linux-arm64"
   CTOP_SUFFIX="linux-arm64"
-#elif [ -z "${arch_uname##*hf*}" ]; then
- # ARCH="linux/arm/v7"
- # ARCH_TAR="armv7"
- # BUILDX_SUFFIX="linux-arm-v7"
- # CTOP_SUFFIX="linux-arm"
-#elif [ -z "${arch_uname##*v7*}" ]; then
- # ARCH="linux/arm/v7"
- # ARCH_TAR="armv7"
- # BUILDX_SUFFIX="linux-arm-v7"
- # CTOP_SUFFIX="linux-arm"
-#elif [ -z "${arch_uname##*v6*}" ]; then
- # ARCH="linux/arm/v6"
- # ARCH_TAR="armv6"
- # BUILDX_SUFFIX="linux-arm-v6"
- # CTOP_SUFFIX="linux-arm"
-#fi
+elif [ -z "${arch_uname##*hf*}" ]; then
+  ARCH="linux/arm/v7"
+  ARCH_TAR="armv7"
+  BUILDX_SUFFIX="linux-arm-v7"
+  CTOP_SUFFIX="linux-arm"
+elif [ -z "${arch_uname##*v7*}" ]; then
+  ARCH="linux/arm/v7"
+  ARCH_TAR="armv7"
+  BUILDX_SUFFIX="linux-arm-v7"
+  CTOP_SUFFIX="linux-arm"
+elif [ -z "${arch_uname##*v6*}" ]; then
+  ARCH="linux/arm/v6"
+  ARCH_TAR="armv6"
+  BUILDX_SUFFIX="linux-arm-v6"
+  CTOP_SUFFIX="linux-arm"
+fi
 
 subcommand=$1; shift
 case "$subcommand" in
@@ -149,8 +149,8 @@ mkdir -p storage/.docker/bin storage/.docker/cli-plugins storage/.docker/data-ro
 # Download from github
 #
 
-curl -L --fail https://github.com/docker/buildx/releases/download/v0.8.1/$BUILDX_PREFIX$BUILDX_SUFFIX -o ./storage/.docker/cli-plugins/docker-buildx && chmod a+x ./storage/.docker/cli-plugins/docker-buildx
-curl -L --fail https://github.com/bcicen/ctop/releases/download/v0.7.6/$CTOP_PREFIX$CTOP_SUFFIX -o ./storage/.docker/bin/ctop && chmod a+x ./storage/.docker/bin/ctop
+curl -L --fail https://github.com/docker/buildx/releases/download/v0.5.1/$BUILDX_PREFIX$BUILDX_SUFFIX -o ./storage/.docker/cli-plugins/docker-buildx && chmod a+x ./storage/.docker/cli-plugins/docker-buildx
+curl -L --fail https://github.com/bcicen/ctop/releases/download/v0.7.5/$CTOP_PREFIX$CTOP_SUFFIX -o ./storage/.docker/bin/ctop && chmod a+x ./storage/.docker/bin/ctop
 curl -L --fail https://raw.githubusercontent.com/linuxserver/docker-docker-compose/master/run.sh -o ./storage/.docker/bin/docker-compose && chmod a+x ./storage/.docker/bin/docker-compose
 cd build_tmp
 git clone https://github.com/moby/moby.git
