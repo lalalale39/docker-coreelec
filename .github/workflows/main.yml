@@ -17,21 +17,20 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      - name: Initialization Environment
-        run: |
-          echo $CUSTOM_VERSION
-          git branch -v
-          sudo -E apt-get -qq update
-          sudo -E apt-get install gcc make git unzip wget xz-utils bc gperf zip unzip g++  build-essential patchutils lzop xfonts-utils xsltproc libjson-perl cmake texinfo default-jre libncurses5-dev file zstd libparse-yapp-perl
-          sudo -E apt-get -qq autoremove --purge
-
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
       - name: Run build
         run: ./compile-docker.bash buildx -a arm64
         
